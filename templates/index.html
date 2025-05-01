@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Recommender</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        #search-form {
+            margin: 30px 0;
+        }
+        #movie-input {
+            padding: 10px;
+            width: 70%;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .recommended {
+            background: #e6ffe6;
+            color: #2e8b57;
+        }
+        .not-recommended {
+            background: #ffe6e6;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <h1>Movie Recommender</h1>
+    
+    <form id="search-form" method="POST" action="/predict">
+        <input 
+            type="text" 
+            id="movie-input" 
+            name="movie_name" 
+            placeholder="Enter movie name" 
+            list="movies"
+            required
+        >
+        <datalist id="movies">
+            {% for movie in movies %}
+                <option value="{{ movie }}">
+            {% endfor %}
+        </datalist>
+        <button type="submit">Check</button>
+    </form>
+
+    {% if prediction %}
+        <div id="result" class="{% if 'Recommended' in prediction %}recommended{% else %}not-recommended{% endif %}">
+            {{ searched_movie }}: <strong>{{ prediction }}</strong>
+        </div>
+    {% endif %}
+</body>
+</html>
